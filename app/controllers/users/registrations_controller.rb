@@ -1,5 +1,4 @@
-before_action :authenticate_user!
-
+# before_action :authenticate_user!
 
 class Users::RegistrationsController < Devise::RegistrationsController
   respond_to :json
