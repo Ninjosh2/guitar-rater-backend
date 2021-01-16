@@ -1,74 +1,95 @@
 class ReviewsController < ApplicationController
   before_action :set_review, only: [:show, :edit, :update, :destroy]
 
-  # GET /reviews
-  # GET /reviews.json
   def index
     @reviews = Review.all
+    render json: @reviews
   end
 
-  # GET /reviews/1
-  # GET /reviews/1.json
   def show
+    @review = set_review  
+    render json: @review
   end
 
-  # GET /reviews/new
-  def new
-    @review = Review.new
-  end
-
-  # GET /reviews/1/edit
   def edit
   end
 
-  # POST /reviews
-  # POST /reviews.json
   def create
     @review = Review.new(review_params)
-
-    respond_to do |format|
-      if @review.save
-        format.html { redirect_to @review, notice: 'Review was successfully created.' }
-        format.json { render :show, status: :created, location: @review }
-      else
-        format.html { render :new }
-        format.json { render json: @review.errors, status: :unprocessable_entity }
-      end
+    if @review.save
+      render json: @review, status: :created, location: @review
+    else
+      render json: @review.errors.full_messages.to_sentence, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /reviews/1
-  # PATCH/PUT /reviews/1.json
   def update
-    respond_to do |format|
-      if @review.update(review_params)
-        format.html { redirect_to @review, notice: 'Review was successfully updated.' }
-        format.json { render :show, status: :ok, location: @review }
-      else
-        format.html { render :edit }
-        format.json { render json: @review.errors, status: :unprocessable_entity }
-      end
+    if @review.update(review_params)
+      render json: @review
+    else
+      render json: @review.errors, status: :unprocessable_entity
     end
   end
 
-  # DELETE /reviews/1
-  # DELETE /reviews/1.json
   def destroy
     @review.destroy
-    respond_to do |format|
-      format.html { redirect_to reviews_url, notice: 'Review was successfully destroyed.' }
-      format.json { head :no_content }
-    end
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_review
-      @review = Review.find(params[:id])
+      @review = Review.find(id: params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def review_params
-      params.require(:review).permit(:comments, :user, :guitar)
+      params.require(:review).permit(:comments, :user_id, :guitar_id)
     end
 end
+
+
+# class ReviewsController < ApplicationController
+#   before_action :set_review, only: [:show, :update, :destroy]
+#   # GET /reviews
+#   def index
+#     #@reviews = Review.all
+#     @reviews = ReviewSerializer.new(Review.all).serializable_hash[:data].map{|hash| hash[:attributes]}
+#     render json: @reviews
+#   end
+#   # GET /reviews/1
+#   def show
+#     @review = set_review  
+#     render json: @review
+#   end
+#   # POST /reviews
+#   def create
+#     #@review = current_user.reviews.build(review_params)
+#     @review = Review.new(review_params)
+#     if @review.save
+#       render json: @review, status: :created, location: @review
+#     else
+#       render json: @review.errors.full_messages.to_sentence, status: :unprocessable_entity
+#     end
+#   end
+#   # PATCH/PUT /reviews/1
+#   def update
+#     if @review.update(review_params)
+#       render json: @review
+#     else
+#       render json: @review.errors, status: :unprocessable_entity
+#     end
+#   end
+#   # DELETE /reviews/1
+#   def destroy
+#     @review.destroy
+#   end
+#   private
+#     # Use callbacks to share common setup or constraints between actions.
+#     def set_review
+#       @review = Review.find_by(id: params[:id])
+#     end
+#     # Only allow a trusted parameter "white list" through.
+#     def review_params
+#       params.require(:review).permit(:comment, :user_id, :product_id)
+#     end
+# end

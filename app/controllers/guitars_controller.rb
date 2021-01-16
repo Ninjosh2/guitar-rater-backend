@@ -1,15 +1,16 @@
 class GuitarsController < ApplicationController
   before_action :set_guitar, only: [:show, :edit, :update, :destroy]
 
-  # GET /guitars
-  # GET /guitars.json
   def index
     @guitars = Guitar.all
+
+    render json: GuitarsSerializer.new(@guitars).serializable_hash[:data].map{|hash| hash[:attributes]}
   end
 
   # GET /guitars/1
   # GET /guitars/1.json
   def show
+    render json: @guitars
   end
 
   # GET /guitars/new
