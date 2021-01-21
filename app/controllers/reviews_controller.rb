@@ -1,9 +1,14 @@
 class ReviewsController < ApplicationController
-  before_action :set_review, only: [:show, :edit, :update, :destroy]
+  before_action :set_review, only: [:create, :show, :edit, :update, :destroy]
 
   def index
-    @reviews = Review.all
+    # @reviews = Review.all
+    # render json: @reviews
+
+    @reviews = ReviewsSerializer.new(Review.all).serializable_hash[:data].map{|hash| hash[:attributes]}
     render json: @reviews
+
+    # render json: ReviewsSerializer.new(@reviews).serializable_hash[:data].map{|hash| hash[:attributes]}
   end
 
   def show
@@ -15,7 +20,8 @@ class ReviewsController < ApplicationController
   end
 
   def create
-    @review = Review.new(review_params)
+    @review = current_user.reviews.build(review_params)
+    #@review = Review.new(review_params)
     if @review.save
       render json: @review, status: :created, location: @review
     else
@@ -38,7 +44,7 @@ class ReviewsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_review
-      @review = Review.find(id: params[:id])
+      @review = Review.find_by(id: params[:id])
     end
 
     # Only allow a list of trusted parameters through.

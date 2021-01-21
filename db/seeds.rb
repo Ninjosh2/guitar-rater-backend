@@ -6,8 +6,8 @@ g2 = Guitar.find_or_create_by(description: "This guitar is a work of art. Amazin
 
 g3 = Guitar.find_or_create_by(description: "Words can't describe how cool this thing is!", name: "Squier Vintage Modified Baritone Jazzmaster Black w/ Rosewood Fretboard", url: "https://reverb.com/item/36456963-squier-vintage-modified-baritone-jazzmaster-black-w-rosewood-fretboard")
 
-r1 = user.reviews.find_or_create_by(comments: "This guitar is insane. I love how it plays. I want to buy another one!")
+r1 = g1.reviews.find_or_create_by(comments: "This guitar is insane. I love how it plays. I want to buy another one!", user_id: user.id)
 
-r2 = user.reviews.find_or_create_by(comments: "It's in prestine condition. I can't believe there's only 50 ever made in the world!")
+r2 = g2.reviews.find_or_create_by(comments: "It's in prestine condition. I can't believe there's only 50 ever made in the world!", user_id: user.id)
 
-r3 = user.reviews.find_or_create_by(comments: "I bought this back when they first came out. I'm super happy with my purchase!")
+r3 = g3.reviews.find_or_create_by(comments: "I bought this back when they first came out. I'm super happy with my purchase!", user_id: user.id)

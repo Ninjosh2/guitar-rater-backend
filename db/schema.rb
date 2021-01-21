@@ -42,5 +42,5 @@ ActiveRecord::Schema.define(version: 2021_01_12_071220) do
     t.index ["jti"], name: "index_users_on_jti", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
-
+  
 end
