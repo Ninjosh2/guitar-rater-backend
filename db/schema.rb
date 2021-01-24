@@ -9,7 +9,8 @@
 # migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
-ActiveRecord::Schema.define(version: 2021_01_12_071220) do
+
+ActiveRecord::Schema.define(version: 2021_01_24_093920) do
 
   create_table "guitars", force: :cascade do |t|
     t.string "description"
@@ -42,5 +43,5 @@ ActiveRecord::Schema.define(version: 2021_01_12_071220) do
     t.index ["jti"], name: "index_users_on_jti", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
-  
+
 end
